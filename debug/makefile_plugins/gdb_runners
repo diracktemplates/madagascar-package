@@ -1,0 +1,11 @@
+# Function to call gdb scripts
+# 1 is the gdb script
+# 2 is the file to debug
+define RUN_CONSOLE
+	gdb -q --command=gdb_scripts/$(1) --args $(2)
+endef
+
+define HACKER
+	gnome-terminal --geometry=65x1000+0+0 -- vi
+	$(call RUN_CONSOLE,$(1),$(2))
+endef

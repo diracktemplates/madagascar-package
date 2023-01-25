@@ -1,0 +1,7 @@
+# Command scripts for GNU debugger (GDB)
+#
+# for debugging. Inside GDB session call it:
+# source run_console
+
+lay src
+echo Running GDB in TUI mode\nUse 'start' command to begin\n
