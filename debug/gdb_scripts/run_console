@@ -1,6 +1,6 @@
-# Command scripts for GNU debugger (GDB)
+# Command script for GNU debugger (GDB)
 #
-# for debugging. Inside GDB session call it:
+# Inside a GDB session call it with:
 # source run_console
 
 echo Running GDB in console mode\nUse 'start' command to begin\n
