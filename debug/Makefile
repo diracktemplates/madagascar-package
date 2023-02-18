@@ -29,6 +29,9 @@ all:	$(PROGRAMS)
 # functions to call gdb scripts
 include makefile_plugins/gdb_runners
 
+# functions to generate a new gdb script
+include makefile_plugins/new_gdb_runner
+
 # GNU debugger (GDB) runners
 %.debug:	%.gdbx gdb_scripts/run_console gdb_scripts/$(script)
 ifdef	script

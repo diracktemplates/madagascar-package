@@ -1,0 +1,20 @@
+# Build a new gdb_runner
+NEW_GDB_RUNNER_ERR1="Please define a Madagascar program in 'rsfprog' variable"
+NEW_GDB_RUNNER_ERR2="Please define the runner name in 'runner' variable"
+NEW_GDB_RUNNER_HELP="Usage: make new_gdb_runner rsfprog=sfprogname runner=gdb_runner_name"
+NEW_GDB_RUNNER_HEADER="# Command script for GNU debugger (GDB)## Inside a GDB session call it with:# source $(runner)"
+
+new_gdb_runner:
+ifdef rsfprog
+ifdef runner
+	if [ -f $(runner) ]; then echo "A file $(runner) already exists!"; exit 1; fi
+	if [ -d $(runner) ]; then echo "A directory $(runner) already exists!"; exit 1; fi
+	$(rsfprog) > /dev/null && echo '# Command script for GNU debugger (GDB)\n#\n# Inside a GDB session call it with:\n# source $(runner)\n\n# $(rsfprog) parameters (Please configure to work properly with your data)' > $(runner)
+	$(rsfprog) | grep SYNOPSIS -A1 | sed '/^SYNOPSIS/d;s/\t//;s/$(rsfprog)/set args/' >> $(runner)
+	echo "\n# Go to dataset folder (Change to your folder path)\n# cd yourfolder\n\n# Use tui mode layout\n# lay src\n\necho Running GDB\\necho Use 'start' command to begin\n" >> $(runner)
+else
+	$(error $(NEW_GDB_RUNNER_ERR2))
+endif
+else
+	$(error $(NEW_GDB_RUNNER_ERR1))
+endif
