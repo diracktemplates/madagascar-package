@@ -12,10 +12,17 @@
 # 
 # License: GPL-3.0 <https://www.gnu.org/licenses/gpl-3.0.txt>.
 
-DEP :=
-SRC := .
-PACKAGE :=
-PROGRAMS :=
+# Put your source directory name here (your directory name inside $RFSRC/user)
+SRC_DIR := 
+# List the main programs here (No 'M' or 'sf' preffix nor extension)
+PROGRAMS_LIST := 
+# List your programs dependencies here (No '.c' extension)
+DEP_LIST := 
+
+SRC := $(RSFSRC)/user/$(SRC_DIR)
+DEP := $(addsuffix .c, $(addprefix $(SRC)/,$(DEP_LIST)))
+#PROGRAMS := $(addsuffix .gdbx, $(addprefix M, $(PROGRAMS_LIST)))
+PROGRAMS := $(addsuffix .gdbx, $(PROGRAMS_LIST))
 LIB := adebuglib
 
 all:	$(PROGRAMS)
@@ -24,14 +31,14 @@ all:	$(PROGRAMS)
 include makefile_plugins/gdb_runners
 
 # GNU debugger (GDB) runners
-%.debug:	$(SRC)/%.gdbx gdb_scripts/run_console gdb_scripts/$(script)
+%.debug:	%.gdbx gdb_scripts/run_console gdb_scripts/$(script)
 ifdef	script
 	$(call RUN_CONSOLE,$(script),$<)
 else
 	$(call RUN_CONSOLE,run_console,$<)
 endif
 
-%.hacker:	$(SRC)/%.gdbx gdb_scripts/run_console gdb_scripts/$(script)
+%.hacker:	%.gdbx gdb_scripts/run_console gdb_scripts/$(script)
 ifdef	script
 	$(call HACKER,$(script),$<)
 else
@@ -40,21 +47,22 @@ endif
 
 # Build program versions for GNU debugger (GDB)
 ifndef DEP
-%.gdbx:	$(SRC)/%.c
+%.gdbx:	$(SRC)/M%.c
 	gcc -fbounds-check -DGDB_DEBUG -g $^ -I$$RSFSRC/include -I.. -L$$RSFSRC/lib -o $@ -lrsf -lm
 else
-%.gdbx:	$(SRC)/%.c lib$(LIB).a
-	gcc -fbounds-check -DGDB_DEBUG -g $^ -I$$RSFSRC/include -I.. -L$$RSFSRC/lib -o $@ -lrsf -lm
+%.gdbx:	$(SRC)/M%.c lib$(LIB).a
+	gcc -fbounds-check -DGDB_DEBUG -g $^ -I$(SRC) -I$$RSFSRC/include -I.. -L$$RSFSRC/lib -o $@ -lrsf -lm
 endif
 
 # Create a static lib with dependencies
 lib$(LIB).a:    $(DEP)
-	gcc -c $^ -I$$RSFSRC/include -I$$RSFSRC/user/$(PACKAGE) -L$$RSFSRC/lib -lm -lrsf
+	gcc -c $^ -I$$RSFSRC/include -I$(SRC) -L$$RSFSRC/lib -lm -lrsf
 	ar -rc $@ $(patsubst %.c,%.o,$^)
 	ranlib $@
 
 clean:
 	rm *.gdbx
+
 
 help:
 	@echo "Use 'make' to compile all GDB programs versions"
@@ -62,10 +70,10 @@ help:
 	@echo "Use 'make progname.debug' to generate a version of progname for GDB and start console"
 	@echo "Use 'make progname.debug script=gdb_script' to generate a version of progname for GDB, start console and load gdb_script in it"
 	@echo "Programs available:"
-	@echo "$(PROGRAMS)"
+	@echo "\t$(PROGRAMS_LIST)"
 	@echo "Sources directory:"
-	@echo "$(SRC)"
+	@echo "\t$(SRC)"
 	@echo "Dependencies:"
-	@echo "$(DEP)"
+	@echo "\t$(notdir $(DEP))"
 
 .PHONY: clean help
