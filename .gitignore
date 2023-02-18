@@ -1,0 +1,9 @@
+*.rsf
+*.vpl
+*.pyc
+*.jpeg
+*.asc
+*.o
+.sconsign
+Fig/
+*.x
