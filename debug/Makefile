@@ -19,9 +19,8 @@ PROGRAMS_LIST :=
 # List your programs dependencies here (No '.c' extension)
 DEP_LIST := 
 
-SRC := $(RSFSRC)/user/$(SRC_DIR)
+SRC := $(firstword $(RSFSRC)/user/$(SRC_DIR))
 DEP := $(addsuffix .c, $(addprefix $(SRC)/,$(DEP_LIST)))
-#PROGRAMS := $(addsuffix .gdbx, $(addprefix M, $(PROGRAMS_LIST)))
 PROGRAMS := $(addsuffix .gdbx, $(PROGRAMS_LIST))
 LIB := adebuglib
 
@@ -63,6 +62,8 @@ lib$(LIB).a:    $(DEP)
 clean:
 	rm *.gdbx
 
+distclean:
+	rm *.gdbx *.o *.a
 
 help:
 	@echo "Use 'make' to compile all GDB programs versions"
@@ -76,4 +77,4 @@ help:
 	@echo "Dependencies:"
 	@echo "\t$(notdir $(DEP))"
 
-.PHONY: clean help
+.PHONY: clean distclean help
