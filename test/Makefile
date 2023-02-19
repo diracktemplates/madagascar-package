@@ -50,7 +50,8 @@ endif
 # Rule for running a test
 ifndef DEP_LIST
 %.x:	%.c
-	$(GCC) $^ $(UNITY) -I$$RSFSRC/include -L. -L$$RSFSRC/lib -lrsf -lm
+	$(GCC) $^ $(UNITY) -I$$RSFSRC/include -L. -L$$RSFSRC/lib -lrsf -lm -o $@
+	./$@; rm $@
 else
 %.x:	%.c lib$(LIB).a
 	$(call RUN_TEST)
