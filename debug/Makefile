@@ -50,10 +50,10 @@ endif
 # Build program versions for GNU debugger (GDB)
 ifndef DEP
 %.gdbx:	$(SRC)/M%.c
-	gcc -fbounds-check -DGDB_DEBUG -g $^ -I$$RSFSRC/include -I.. -L$$RSFSRC/lib -o $@ -lrsf -lm
+	gcc -fbounds-check -DGDB_DEBUG -g $^ -I$$RSFSRC/include -I.. -L. -L$$RSFSRC/lib -o $@ -lrsf -lm -lblas
 else
 %.gdbx:	$(SRC)/M%.c lib$(LIB).a
-	gcc -fbounds-check -DGDB_DEBUG -g $^ -I$(SRC) -I$$RSFSRC/include -I.. -L$$RSFSRC/lib -o $@ -lrsf -lm
+	gcc -fbounds-check -DGDB_DEBUG -g $^ -I$(SRC) -I$$RSFSRC/include -I.. -L. -L$$RSFSRC/lib -o $@ -lrsf -lm -lblas
 endif
 
 # Create a static lib with dependencies
