@@ -40,3 +40,8 @@ a partir da compilação do arquivo 'velocity.c' presente na pasta '$RSFSRC/user
 Os testes serão compilados utilizando a biblioteca estática gerada e as dependências do Unity na pasta 'Unity' deste
 diretório.
 
+O mesmo resultado pode ser obtido definindo estas variáveis a partir da linha de comandos no terminal:
+
+```
+make DEP_LIST=velocity SRC_DIR=velModelInterpolator
+```
