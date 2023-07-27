@@ -24,7 +24,7 @@ PACKAGE := $(RSFSRC)/user/$(firstword $(SRC_DIR))
 LIB := atestlib
 UNITY := Unity/unity.c
 GCC := gcc
-GCC_OPT := $(UNITY) -I$$RSFSRC/include -I$(PACKAGE) -L. -L$$RSFSRC/lib -lrsf -lm -l$(LIB)
+GCC_OPT := $(UNITY) -I$$RSFSRC/include -I$(PACKAGE) -L. -L$$RSFSRC/lib -lrsf -lm -lblas -l$(LIB)
 DEP := $(addprefix $(PACKAGE)/, $(SRC))
 
 # Function to compile and run a test
