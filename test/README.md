@@ -18,7 +18,11 @@ sobre os comandos disponíveis utilize o comando 'make help'.
 
 Para criar um teste para um programa do Madagascar basta listar o diretório do programa na sua instalação local
 do Madagascar em '$RSFSRC/user' na variável 'SRC_DIR' do arquivo 'Makefile' deste diretório. E também listar as
-dependências e o arquivo principal na variável 'DEP_LIST' do arquivo 'Makefile' deste diretório.
+dependências dos testes na variável 'DEP_LIST' do arquivo 'Makefile' deste diretório.
+
+O 'Makefile' está configurado para gerar uma biblioteca estática com as dependências e compilar os testes utilizando
+esta bilbioteca. Os testes são identificados pelo prefixo 'test_' e extensão '.c'. Os arquivos da pasta com esta extensão
+e prefixo serão compilados como e, os executáveis gerados serão executados.
 
 ```
 # Put your source directory name here (your directory name inside $RFSRC/user)
@@ -28,4 +32,4 @@ TESTS := $(patsubst %.c,%.x,$(wildcard test_*.c))
 # List your tests dependencies here (No '.c' extension)
 DEP_LIST :=
 ```
-```
+
