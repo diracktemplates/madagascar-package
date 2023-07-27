@@ -46,6 +46,53 @@ O mesmo resultado pode ser obtido definindo estas variáveis a partir da linha d
 make DEP_LIST=velocity SRC_DIR=velModelInterpolator
 ```
 
+## Criando um teste
+
+Os testes são feitos para as funções das bibliotecas dos programas do Madagascar. Podemos criar uma biblioteca de exemplo
+chamada 'velocity.c' em '$RSFSRC/user/velModelInterpolator'. Compilamos a biblioteca com o arquivo SConstruct presente na
+pasta de usuário '$RSFSRC/user/velModelInterpolator', um arquivo cabeçalho 'velocity.h' será gerado automaticamente pelo scons.
+A seguir, o conteúdo do arquivo 'velocity.c':
+
+```c
+#include <rsf.h>
+
+float slowness(float vel)
+/*< return slowness >*/
+{
+        return 1./(vel*vel);
+}
+```
+
+Agora criamos o nosso teste utilizando o template em 'test_example.c'. O conteúdo de 'test_example.c' ficará assim:
+
+```c
+#include "Unity/unity.h"
+#include "velocity.h"
+
+void setUp(){};
+
+void tearDown(){};
+
+void test_example()
+/*< A test example >*/
+{
+        TEST_ASSERT_FLOAT_WITHIN(0.1,0.44,slowness(1.5));
+}
+
+int main(void){
+
+        UNITY_BEGIN();
+        RUN_TEST(test_example);
+        return UNITY_END();
+}
+```
+
+Então, basta rodar o teste pelo terminal listando as dependências e o diretório de usuário:
+
+```
+make DEP_LIST=velocity SRC_DIR=velModelInterpolator
+```
+
 ## Troubleshooting
 
 - **undefined reference to `cblas_saxpy'**
