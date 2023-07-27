@@ -22,14 +22,21 @@ dependências dos testes na variável 'DEP_LIST' do arquivo 'Makefile' deste dir
 
 O 'Makefile' está configurado para gerar uma biblioteca estática com as dependências e compilar os testes utilizando
 esta bilbioteca. Os testes são identificados pelo prefixo 'test_' e extensão '.c'. Os arquivos da pasta com esta extensão
-e prefixo serão compilados como e, os executáveis gerados serão executados.
+e prefixo serão compilados como e, os executáveis gerados serão executados. Veja o exemplo a seguir:
 
 ```
 # Put your source directory name here (your directory name inside $RFSRC/user)
-SRC_DIR :=
+SRC_DIR := velModelInterpolator
 # Tests list will be extracted from current folder (Search files with test_*.c pattern)
 TESTS := $(patsubst %.c,%.x,$(wildcard test_*.c))
 # List your tests dependencies here (No '.c' extension)
-DEP_LIST :=
+DEP_LIST := velocity
 ```
+
+Neste exemplo, o diretório 'velModelInterpolator', listado em 'SRC_DIR' será o diretório de onde serão buscadas as dependências.
+No exemplo, apenas a dependência 'velocity' foi listada em 'DEP_LIST'. Ou seja, será gerada uma biblioteca estática
+a partir da compilação do arquivo 'velocity.c' presente na pasta '$RSFSRC/user/velModelInterpolator'.
+
+Os testes serão compilados utilizando a biblioteca estática gerada e as dependências do Unity na pasta 'Unity' deste
+diretório.
 
